@@ -2,13 +2,13 @@
 head - n 1 tmdb-movies.csv | tr ',' '\n' | nl # xac dinh ten cot
 
 # Sắp xếp các bộ phim theo ngày phát hành giảm dần rồi lưu ra một file mới
-sort -t',' -k16,16r movies.txt > movies_sorted.txt # Sắp xếp các bộ phim theo ngày phát hành giảm dần rồi lưu ra một file mới
+(head -n 1 tmdb-movies.csv && tail -n +2 tmdb-movies.csv | sort -t',' -k14 -r) > sorted_by_release_date.csv
 
- # Lọc ra các bộ phim có đánh giá trung bình trên 7.5 rồi lưu ra một file mới
+# Lọc ra các bộ phim có đánh giá trung bình trên 7.5 rồi lưu ra một file mới
 awk -F',' 'NR==1 || $18 > 7.5' tmdb-movies.csv > top10_movies.csv
 
-# Phim co doanh thu thap nhat
-awk -F',' 'NR==1{next} $5 > max {max=$5; title=$6} END{print "Phim doanh thu cao nhất:", title, max}' tmdb-movies.csv # Phim co doanh thu cao nhat
+# Tìm ra phim nào có doanh thu cao nhất và doanh thu thấp nhất
+awk -F',' 'NR==1{next} $5 > max {max=$5; title=$6} END{print "Phim doanh thu cao nhất:", title, max}' tmdb-movies.csv 
 awk -F',' 'NR==1{next} ($5 < min || min=="" ) && $5 != "" {min=$5; title=$6} END{print "Phim doanh thu thấp nhất:", title, min}' tmdb-movies.csv
  > low_revenue_movies.csv 
 
