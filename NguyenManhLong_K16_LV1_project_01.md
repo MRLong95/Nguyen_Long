@@ -9,6 +9,7 @@ awk -F',' 'NR==1 || $18 > 7.5' tmdb-movies.csv > top10_movies.csv
 
 # Tìm ra phim nào có doanh thu cao nhất và doanh thu thấp nhất
 awk -F',' 'NR==1{next} $5 > max {max=$5; title=$6} END{print "Phim doanh thu cao nhất:", title, max}' tmdb-movies.csv 
+
 awk -F',' 'NR==1{next} ($5 < min || min=="" ) && $5 != "" {min=$5; title=$6} END{print "Phim doanh thu thấp nhất:", title, min}' tmdb-movies.csv
  > low_revenue_movies.csv 
 
